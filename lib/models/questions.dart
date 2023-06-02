@@ -1,13 +1,17 @@
 class Questions {
   static int count = 0;
+  static int score = 0;
   int? counter;
   List<String>? answers;
   String? question;
   int? answerNumber;
+  int? choicedNumber;
+  int correct=0;
 
   Questions({required this.answers,required this.question,required this.answerNumber}){
     count+=1;
     counter=count;
+    correct = score;
   }
 }
 List<List<Questions>> levels = [

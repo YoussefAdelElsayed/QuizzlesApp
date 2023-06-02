@@ -5,9 +5,15 @@ import 'package:quizzles/componants/circle_Icon.dart';
 import 'package:quizzles/componants/head_text.dart';
 import 'package:quizzles/componants/score_card.dart';
 import 'package:quizzles/componants/small_text.dart';
+import 'package:quizzles/models/questions.dart';
+import 'package:quizzles/screens/level_screen.dart';
+import 'package:quizzles/screens/question_screen.dart';
+import 'package:quizzles/utils/app_navigator.dart';
 
 class ResultScreen extends StatelessWidget {
-  const ResultScreen({Key? key}) : super(key: key);
+  Questions? questions;
+
+  ResultScreen({required this.questions});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +22,11 @@ class ResultScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Color(0xff1f1147),
-        leading: CircleIcon(smallIcon: Icons.arrow_back,),
+        leading:
+        InkWell(
+          onTap: (){
+            AppNavigator.navigateToNewScreen(true, context, LevelScreen());
+          }, child: CircleIcon(smallIcon: Icons.arrow_back,)),
         title: Center(child: HeadText('Results',color: Color(0xff36e7bb),fontSize: 20,)),
         actions: [
           SizedBox(width: 50,),
@@ -31,11 +41,15 @@ class ResultScreen extends StatelessWidget {
             Column(
               children: [
                 SmallText('Total correct answers',fontSize: 15,color: Colors.white,),
-                SmallText('6 out of 10 Questions',fontSize: 15,color: Color(0xff36e7bb),),
+                SmallText('${questions?.correct} out of 10 Questions',fontSize: 15,color: Color(0xff36e7bb),),
               ],
             ),
-            ScoreCard(score: 60),
-            Buttons(text: 'Try Again', outLine: false, half: false),
+            ScoreCard(score: (questions?.correct)!*10),
+            Buttons(text: 'Try Again', outLine: false, half: false,padding: true,function: (){
+              AppNavigator.navigateToNewScreen(true, context, QuestionScreen(questions: level1[1],));
+              questions?.correct=0;
+              questions?.choicedNumber=0;
+            },),
           ],
         ),
       ),

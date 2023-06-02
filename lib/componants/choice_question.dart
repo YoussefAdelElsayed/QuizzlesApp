@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'head_text.dart';
 
 class ChoiceQuestion extends StatefulWidget {
@@ -7,7 +6,7 @@ class ChoiceQuestion extends StatefulWidget {
   int? count;
   bool? isChoiced;
 
-  ChoiceQuestion({required this.answer,required this.count,required this.isChoiced});
+  ChoiceQuestion({required this.answer,required this.count,});
 
   @override
   State<ChoiceQuestion> createState() => _ChoiceQuestionState();
@@ -15,18 +14,18 @@ class ChoiceQuestion extends StatefulWidget {
 
 class _ChoiceQuestionState extends State<ChoiceQuestion> {
 
+  List<bool> chosies= [
+    false,false,false,false
+  ];
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+
   @override
   Widget build(BuildContext context) {
-    widget.isChoiced=false;
+    print('thisssssssssssssssssss${widget.count!-1} ${chosies}');
     return Container(
       height: 60,
       decoration: BoxDecoration(
-        color:(widget.isChoiced!)? Color(0xff36e7bb): null,
+        color:(chosies[widget.count!-1])? Color(0xff36e7bb): null,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -40,10 +39,18 @@ class _ChoiceQuestionState extends State<ChoiceQuestion> {
           MaterialButton(
             onPressed: (){
               setState(() {
-                widget.isChoiced = true;
+                for(int i=0; i<4;i++){
+                  chosies[i]=false;
+                  print('false');
+                  if(widget.count!-1 == i){
+                    chosies[i]=true;
+                    print('in the if');
+                  }
+                  print('${chosies[i]}'+'$i');
+                }
               });
             },
-            child: HeadText(widget.answer,color:(widget.isChoiced!)?Colors.black :Colors.white,fontSize: 20,),
+            child: HeadText(widget.answer,color:(chosies[widget.count!-1])?Colors.black :Colors.white,fontSize: 20,),
           ),
         ],
       ),
